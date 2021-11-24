@@ -14,5 +14,20 @@
                 </div>
             </div> 
         </c:if>  
-    </div>
+        <c:if test="${not empty pageContext.request.userPrincipal}">
+            <div class="row my-lg-5 justify-content-center">
+                <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_STAFF', 'ROLE_STUDENT', 'ROLE_TEACHER')">
+                    <div class="feature-card p-lg-4 p-4 mx-4" onclick="location.href='/admin'">
+                        <span class="fa fa-id-card fa-3x" aria-hidden="true"></span>
+                        <h3 class="my-3">${fn:toUpperCase(role)} DASHBOARD</h3>
+                        <p>Go to your dashboard</p>
+                    </div>
+                </sec:authorize>
+            </div>
+            <c:if test="${role == 'admin'}"></c:if>
+            <c:if test="${role == 'staff'}"></c:if>
+            <c:if test="${role == 'teacher'}"></c:if>
+            <c:if test="${role == 'student'}"></c:if>
+        </c:if>
+t    </div>
 </div>

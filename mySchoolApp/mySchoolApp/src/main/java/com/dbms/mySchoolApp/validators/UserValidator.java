@@ -24,6 +24,12 @@ public class UserValidator implements Validator {
         if (userService.findByEmailAddress(user.getEmailAddress()) != null) {
             errors.rejectValue("emailAddress", "Duplicate.user.emailAddress");
         }
-
+    }
+    
+    public void validateExisting(Object target, Errors errors) {
+        User user = (User) target;
+        if (userService.findByEmailAddress(user.getEmailAddress()) == null) {
+            errors.rejectValue("emailAddress", "NotExist.user.emailAddress");
+        }
     }
 }

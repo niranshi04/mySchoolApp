@@ -53,9 +53,6 @@
                         </li>
                         <sec:authorize access="hasRole('ROLE_ADMIN')">
                             <li class="nav-item mr-2">
-                                <a class="nav-link active" href="/user/register">Register</a>
-                            </li>
-                            <li class="nav-item mr-2">
                                 <a class="nav-link active" href="/user/logout">Logout</a>
                             </li>
                         </sec:authorize>

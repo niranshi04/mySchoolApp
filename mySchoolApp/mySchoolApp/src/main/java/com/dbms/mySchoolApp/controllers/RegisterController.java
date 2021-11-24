@@ -28,19 +28,19 @@ public class RegisterController {
     @Autowired
     private SecurityService securityService;
 
-    @GetMapping("/user/register")
+    @GetMapping("/admin/register")
     public String register(Model model) {
     	model.addAttribute("title", "Register Page");
         model.addAttribute("user", new User());
-        return "user/register";
+        return "admin/register";
     }
 
-    @PostMapping("/user/register")
+    @PostMapping("/admin/register")
     public String register(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, Model model) {
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             model.addAttribute("title", "Register Page");
-            return "user/register";
+            return "admin/register";
         }
         String password = UUID.randomUUID().toString();
         user.setPassword(password);

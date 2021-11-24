@@ -1,5 +1,6 @@
 package com.dbms.mySchoolApp.controllers;
-
+import java.util.Date;
+import java.util.GregorianCalendar;
 import com.dbms.mySchoolApp.dao.UserDao;
 import com.dbms.mySchoolApp.dao.UserTokenDao;
 import com.dbms.mySchoolApp.models.User;
@@ -113,14 +114,5 @@ public class LoginController {
         }
         userService.sendPasswordResetEmail(user);
         return "redirect:/user/login?emailSent";
-    }
-
-    @GetMapping("/user/updateSessionIfRequired")
-    public ResponseEntity<Integer> isUserLoggedIn(Model model) {
-        boolean isDeletedOrUpdated = securityService.isUserDeletedOrUpdated();
-        if (!isDeletedOrUpdated)
-            return new ResponseEntity<>(HttpStatus.OK);
-        else
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
