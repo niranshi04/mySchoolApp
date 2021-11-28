@@ -9,6 +9,10 @@ import com.dbms.mySchoolApp.models.Attendance;
 import com.dbms.mySchoolApp.models.ClassDetails;
 import com.dbms.mySchoolApp.services.UserService;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -48,11 +52,19 @@ public class AttendanceValidator implements Validator {
     public void validateExtras(Object target, Errors errors) {
     	Attendance attendance = (Attendance) target;
     	//System.out.println(classDetails.getSection().length());
-    	if(attendance.getYear()<1995  || attendance.getYear()>2999 ) {
+    	Date date = attendance.getDate();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		String pattern = "yyyy-MM-dd";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		String date1 = simpleDateFormat.format(date);
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH);
+    	if(year<1995  || year>2999 ) {
     		 errors.rejectValue("year", "Invalid.year");
     	}
     	else {
-    		if(attendance.getMonth()<1  || attendance.getMonth()>12 ) {
+    		if(month<0  || month>11 ) {
        		 errors.rejectValue("month", "Invalid.month");
        	}
     		

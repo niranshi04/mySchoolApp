@@ -30,6 +30,7 @@ import com.dbms.mySchoolApp.models.Grades;
 import com.dbms.mySchoolApp.utils.PreparedStatementUtil;
 import com.dbms.mySchoolApp.dao.rowmappers.GradesRowMapper;
 import com.dbms.mySchoolApp.dao.rowmappers.TeacherClassSubjectRowMapper;
+import com.dbms.mySchoolApp.dao.rowmappers.ClassStudentRowMapper;
 import com.dbms.mySchoolApp.dao.ClassDetailsDao;
 
 @Transactional

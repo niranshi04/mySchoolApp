@@ -111,13 +111,6 @@ public class AttendanceDaoImpl implements AttendanceDao {
     }
 
     @Override
-    public List<Subject> getAll() {
-        String sql = "SELECT * FROM subject";
-        List<Subject> subject = template.query(sql, new BeanPropertyRowMapper<>(Subject.class));
-        return subject;
-    }
-    
-    @Override
     public void delete(int subjectId) {
         String sql = "DELETE FROM subject WHERE subjectId = ?";
         template.update(sql,subjectId );

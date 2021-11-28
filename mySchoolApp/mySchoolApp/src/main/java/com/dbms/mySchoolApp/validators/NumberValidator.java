@@ -26,4 +26,8 @@ public class NumberValidator implements Validator {
             errors.rejectValue(column, "wrong.phoneNumber");
         }
     }
+    @Override
+    public void validate(Object target, Errors errors) {
+    	return;
+    }
 }

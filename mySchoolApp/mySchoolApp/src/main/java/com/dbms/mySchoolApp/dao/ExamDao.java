@@ -3,11 +3,12 @@ package com.dbms.mySchoolApp.dao;
 import java.util.List;
 
 import com.dbms.mySchoolApp.models.Exam;
+import com.dbms.mySchoolApp.models.Subject;
 
 public interface ExamDao {
-    public void save(Exam exam);
+    public void save(Subject subject);
 
-    public List<Exam> getAll();
+    public List<Subject> getAll();
 
     public Exam get(int examId);
     

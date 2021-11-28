@@ -17,8 +17,6 @@ public interface ClassStudentDao {
     
     public List<ClassStudent> getAll(int year );
     
-    public ClassStudent getAllClassesOfStudent(int registrationNo);
-    
     public ClassStudent getPresentClassOfStudent(int registrationNo);
     
     public ClassStudent getClassOfStudent(int registrationNo, int year);
@@ -29,6 +27,5 @@ public interface ClassStudentDao {
     
     public void delete(ClassStudent classStudent);
     
-    public void update(int classId, int registrationNo, int year);
     
 }

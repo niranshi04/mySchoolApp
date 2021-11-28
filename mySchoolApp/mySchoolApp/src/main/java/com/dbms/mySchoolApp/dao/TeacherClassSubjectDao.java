@@ -10,15 +10,12 @@ import com.dbms.mySchoolApp.models.TeacherClassSubject;
 public interface TeacherClassSubjectDao {
     public void save(TeacherClassSubject teacherClassSubject);
 
-    public List<TeacherClassSubject> getAllPresent();
-
     public List<ClassStudent> getAllPresentInClass(ClassDetails classDetails);
     
     public List<TeacherClassSubject> getAllInClass(ClassDetails classDetails, int year );
     
     public List<ClassStudent> getAll(int year );
     
-    public ClassStudent getAllClassesOfStudent(int registrationNo);
     
     public ClassStudent getPresentClassOfStudent(int registrationNo);
     
@@ -30,6 +27,5 @@ public interface TeacherClassSubjectDao {
     
     public void delete(TeacherClassSubject teacherClassSubject);
     
-    public void update(int classId,int subjectId, int year);
     
 }

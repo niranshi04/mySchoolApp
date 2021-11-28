@@ -21,7 +21,7 @@ public class TeacherSalary {
     }
 
     public TeacherSalary(int teachedId, Date lastDate, int salary) {
-        this.teachedId=teachedId;
+        this.teacherId=teachedId;
         this.lastDate = lastDate;
         this.salary = salary;
     }

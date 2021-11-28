@@ -9,7 +9,7 @@ public interface FeeDetailsDao {
 
     public List<FeeDetails> getAll();
 
-    public FeeDetails get(int classNo, int year, int month);
+    public FeeDetails get(int classNo, int year, String month);
     
     public List<FeeDetails> getClasswise(int year);
 

@@ -7,8 +7,6 @@ import com.dbms.mySchoolApp.models.TeacherSalary;
 public interface TeacherSalaryDao {
     public void save(TeacherSalary teacherSalary);
 
-    public List<TeacherSalary> getAll();
-
     public TeacherSalary get(int teacherId);
 
     public void update(TeacherSalary teacherSalary);

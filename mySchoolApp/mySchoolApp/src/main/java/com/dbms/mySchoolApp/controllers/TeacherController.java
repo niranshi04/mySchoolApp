@@ -6,6 +6,7 @@ import com.dbms.mySchoolApp.services.UserService;
 import com.dbms.mySchoolApp.validators.StudentValidator;
 import com.dbms.mySchoolApp.validators.NumberValidator;
 import com.dbms.mySchoolApp.validators.ClassValidator;
+import com.dbms.mySchoolApp.validators.TeacherValidator;
 import com.dbms.mySchoolApp.validators.AttendanceValidator;
 import com.dbms.mySchoolApp.validators.GradesValidator;
 import com.dbms.mySchoolApp.validators.ClassStudentValidator;
@@ -31,6 +32,8 @@ import com.dbms.mySchoolApp.dao.FeeDetailsDao;
 import com.dbms.mySchoolApp.dao.ClassDetailsDao;
 import com.dbms.mySchoolApp.dao.ClassStudentDao;
 import com.dbms.mySchoolApp.dao.AttendanceDao;
+import com.dbms.mySchoolApp.dao.TeacherDao;
+import com.dbms.mySchoolApp.dao.TeacherSalaryDao;
 import com.dbms.mySchoolApp.dao.TeacherClassSubjectDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -57,6 +60,7 @@ import com.dbms.mySchoolApp.models.ClassDetails;
 import com.dbms.mySchoolApp.models.ClassStudent;
 import com.dbms.mySchoolApp.models.Grades;
 
+
 @Transactional
 @Controller
 public class TeacherController {
@@ -77,6 +81,12 @@ public class TeacherController {
 	
 	@Autowired
     private FeeDetailsDao feeDetailsDao;
+	@Autowired
+    private TeacherSalaryDao teacherSalaryDao;
+	@Autowired
+    private TeacherDao teacherDao;
+	@Autowired
+    private TeacherValidator teacherValidator;
 	
 	@Autowired
     private StudentFeesDao studentFeesDao;

@@ -29,6 +29,7 @@ import com.dbms.mySchoolApp.models.FeeDetails;
 import com.dbms.mySchoolApp.utils.PreparedStatementUtil;
 import com.dbms.mySchoolApp.dao.rowmappers.StudentRowMapper;
 import com.dbms.mySchoolApp.dao.rowmappers.TeacherClassSubjectRowMapper;
+import com.dbms.mySchoolApp.dao.rowmappers.ClassStudentRowMapper;
 
 @Transactional
 @Repository

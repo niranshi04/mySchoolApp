@@ -35,10 +35,10 @@ public class FeeDetailsDaoImpl implements FeeDetailsDao {
 
     @Override
     public void save(FeeDetails feeDetails) {
-        String sql = "INSERT INTO feedetails (fees, classNo, month, year) "
-                + "VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE fees=VALUES(fees)";
+        String sql = "INSERT INTO feedetails (fees, classNo, month) "
+                + "VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE fees=VALUES(fees)";
         template.update(sql, feeDetails.getFees(), feeDetails.getClassNo(),
-        		feeDetails.getMonth(),feeDetails.getYear());
+        		feeDetails.getMonth());
     }
 
     @Override
