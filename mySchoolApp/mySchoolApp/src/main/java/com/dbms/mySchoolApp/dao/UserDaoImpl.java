@@ -35,7 +35,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User save(User user) {
-        String sql = "INSERT INTO User (password, emailAddress, dateCreated, isEmailVerified, role) "
+        String sql = "INSERT INTO user (password, emailAddress, dateCreated, isEmailVerified, role) "
                 + "VALUES (?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         template.update(new PreparedStatementCreator(){
@@ -53,7 +53,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getAll() {
-        String sql = "SELECT * FROM User";
+        String sql = "SELECT * FROM user";
         List<User> users = template.query(sql, new BeanPropertyRowMapper<>(User.class));
         return users;
     }
@@ -61,7 +61,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User get(String emailAddress) {
         try {
-            String sql = "SELECT * FROM User WHERE emailAddress = ?";
+            String sql = "SELECT * FROM user WHERE emailAddress = ?";
             return (User) template.queryForObject(sql, 
                     new BeanPropertyRowMapper<>(User.class),new Object[] { emailAddress });
         } catch (EmptyResultDataAccessException e) {
@@ -71,14 +71,14 @@ public class UserDaoImpl implements UserDao {
     
     @Override
     public void verifyEmail(String emailAddress) {
-        String sql = "UPDATE User SET isEmailVerified = true WHERE emailAddress = ?";
+        String sql = "UPDATE user SET isEmailVerified = true WHERE emailAddress = ?";
         template.update(sql, emailAddress);
     }
     
     @Override
     public String getPassword(String emailAddress) {
         try {
-            String sql = "SELECT password FROM User WHERE emailAddress = ?";
+            String sql = "SELECT password FROM user WHERE emailAddress = ?";
             return template.queryForObject(sql, String.class, new Object[] { emailAddress });
         } catch (EmptyResultDataAccessException e) {
             return null;
@@ -87,7 +87,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean exists(String emailAddress) {
-        String sql = "SELECT COUNT(*) FROM User WHERE emailAddress = ?";
+        String sql = "SELECT COUNT(*) FROM user WHERE emailAddress = ?";
         int count = template.queryForObject(sql, Integer.class);
         return (count > 0);
     }
@@ -95,7 +95,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User findByEmailAddress(String emailAddress) {
         try {
-            String sql = "SELECT * FROM User WHERE emailAddress = ?";
+            String sql = "SELECT * FROM user WHERE emailAddress = ?";
             return (User) template.queryForObject(sql,
                     new BeanPropertyRowMapper<>(User.class),new Object[] { emailAddress });
         } catch (EmptyResultDataAccessException e) {
@@ -105,7 +105,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void changePassword(String emailAddress, String password) {
-        String sql = "UPDATE User SET password = ? WHERE emailAddress = ?";
+        String sql = "UPDATE user SET password = ? WHERE emailAddress = ?";
         template.update(sql, password, emailAddress);
     }
 
@@ -113,7 +113,7 @@ public class UserDaoImpl implements UserDao {
     public User setLoginTimestamp(User user) {
         String lastLoginDate = dateTimeUtil.getCurrentDateTime("yyyy-MM-dd");
         String lastLoginTime = dateTimeUtil.getCurrentDateTime("HH:mm:ss");
-        String sql = "UPDATE User SET lastLoginDate = ?, lastLoginTime = ? WHERE emailAddress = ?";
+        String sql = "UPDATE user SET lastLoginDate = ?, lastLoginTime = ? WHERE emailAddress = ?";
         template.update(sql, lastLoginDate, lastLoginTime, user.getEmailAddress());
         user.setLastLoginDate(Date.valueOf(lastLoginDate));
         user.setLastLoginTime(Time.valueOf(lastLoginTime));
@@ -122,7 +122,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void setRole(User user, String role) {
-        String sql = "UPDATE User SET role = ? WHERE emailAddress = ?";
+        String sql = "UPDATE user SET role = ? WHERE emailAddress = ?";
         template.update(sql, role, user.getEmailAddress());
     }
 
@@ -132,7 +132,7 @@ public class UserDaoImpl implements UserDao {
      * lastLoginTime, role
      */
     public void update(User user) {
-        String sql = "UPDATE User SET emailAddress = ?"
+        String sql = "UPDATE user SET emailAddress = ?"
                 + "isEmailVerified = ? WHERE emailAddress = ?";
         template.update(sql,user.getEmailAddress(),
                false, user.getEmailAddress());
@@ -140,7 +140,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void delete(String emailAddress) {
-        String sql = "DELETE FROM User WHERE emailAddress = ?";
+        String sql = "DELETE FROM user WHERE emailAddress = ?";
         template.update(sql, emailAddress);
     }
 

@@ -58,7 +58,7 @@ public class TeacherDaoImpl implements TeacherDao {
 public Integer getTeacherIdByEmailAddress(String emailAddress) {
     try {
     	System.out.println("ko");
-        String sql = "SELECT teacherId FROM Teacher WHERE emailAddress = ?";
+        String sql = "SELECT teacherId FROM teacher WHERE emailAddress = ?";
         return template.queryForObject(sql, Integer.class, new Object[] { emailAddress });
     } catch (EmptyResultDataAccessException e) {
         return null;
@@ -68,7 +68,7 @@ public Integer getTeacherIdByEmailAddress(String emailAddress) {
 @Override
 public Teacher get(int teacherId) {
 	try {
-        String sql = "SELECT * FROM Teacher NATURAL JOIN User WHERE teacherId = ?";
+        String sql = "SELECT * FROM teacher NATURAL JOIN user WHERE teacherId = ?";
         return (Teacher) template.queryForObject(sql,
                 new TeacherRowMapper(), new Object[] { teacherId });
     } catch (EmptyResultDataAccessException e) {
@@ -77,7 +77,7 @@ public Teacher get(int teacherId) {
 }
 public Teacher getByEmailAddress(String emailAddress) {
 	try {
-        String sql = "SELECT * FROM Teacher NATURAL JOIN User WHERE emailAddress = ?";
+        String sql = "SELECT * FROM teacher NATURAL JOIN user WHERE emailAddress = ?";
         return (Teacher) template.queryForObject(sql, new TeacherRowMapper(), new Object[] { emailAddress });
     } catch (EmptyResultDataAccessException e) {
         return null;
@@ -85,7 +85,7 @@ public Teacher getByEmailAddress(String emailAddress) {
 }
 @Override
 public void update(Teacher teacher) {
-    String sql = "UPDATE Teacher SET name = ?, gender = ?, dateOfBirth = ?, houseNumber = ?, street = ?, city = ?, state = ?, "
+    String sql = "UPDATE teacher SET name = ?, gender = ?, dateOfBirth = ?, houseNumber = ?, street = ?, city = ?, state = ?, "
             + "dateOfJoining = ?, emailAddress = ?, phoneNumber = ? ,  subject1 = ? , subject2 = ?, subject3 =? , classType =?"
             + "WHERE teacherId = ?";
     template.update(sql, teacher.getName(), teacher.getGender(), teacher.getDateOfBirth(), teacher.getHouseNumber(),
@@ -99,7 +99,7 @@ public void update(Teacher teacher) {
 
 @Override
 public void delete(int teacherId) {
-    String sql = "DELETE FROM Teacher WHERE teacherId = ?";
+    String sql = "DELETE FROM teacher WHERE teacherId = ?";
     template.update(sql, teacherId);
 }
 

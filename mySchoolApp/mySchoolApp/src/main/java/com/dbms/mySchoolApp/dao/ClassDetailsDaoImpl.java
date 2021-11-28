@@ -34,7 +34,7 @@ public class ClassDetailsDaoImpl implements ClassDetailsDao {
     private PreparedStatementUtil preparedStatementUtil;
     @Override
     public void save(ClassDetails classDetails) {
-        String sql = "INSERT IGNORE INTO classDetails (classNo, section) " + "VALUES (?, ?) ";
+        String sql = "INSERT IGNORE INTO classdetails (classNo, section) " + "VALUES (?, ?) ";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         template.update(new PreparedStatementCreator(){
             @Override
@@ -52,7 +52,7 @@ public class ClassDetailsDaoImpl implements ClassDetailsDao {
     @Override
     public ClassDetails get(int classNo ,String section) {
     	try {
-    	String sql = "SELECT * FROM ClassDetails WHERE classNo = ? && section = ? ";
+    	String sql = "SELECT * FROM classdetails WHERE classNo = ? && section = ? ";
     	ClassDetails classDetails = (ClassDetails)template.queryForObject(sql, new BeanPropertyRowMapper<>(ClassDetails.class),
     			new Object[] { classNo, section });
         return classDetails;
@@ -63,7 +63,7 @@ public class ClassDetailsDaoImpl implements ClassDetailsDao {
     @Override
     public ClassDetails getClass(int classId) {
     	try {
-    	String sql = "SELECT * FROM ClassDetails WHERE classId = ?";
+    	String sql = "SELECT * FROM classdetails WHERE classId = ?";
     	ClassDetails classDetails = (ClassDetails)template.queryForObject(sql, new BeanPropertyRowMapper<>(ClassDetails.class),
     			new Object[] { classId});
         return classDetails;
@@ -74,7 +74,7 @@ public class ClassDetailsDaoImpl implements ClassDetailsDao {
     @Override
     public List<ClassDetails> getAll() {
     	try {
-    	String sql = "SELECT * FROM ClassDetails";
+    	String sql = "SELECT * FROM classdetails";
     	List<ClassDetails> classDetails = template.query(sql, new BeanPropertyRowMapper<>(ClassDetails.class));
         return classDetails;
     } catch (EmptyResultDataAccessException e) {
@@ -84,7 +84,7 @@ public class ClassDetailsDaoImpl implements ClassDetailsDao {
     
     @Override
     public void delete(int classId) {
-        String sql = "DELETE FROM ClassDetails WHERE classId = ?";
+        String sql = "DELETE FROM classdetails WHERE classId = ?";
         template.update(sql,classId );
     }
 

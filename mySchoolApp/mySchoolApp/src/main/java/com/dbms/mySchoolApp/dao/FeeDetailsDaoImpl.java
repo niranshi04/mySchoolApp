@@ -35,7 +35,7 @@ public class FeeDetailsDaoImpl implements FeeDetailsDao {
 
     @Override
     public void save(FeeDetails feeDetails) {
-        String sql = "INSERT INTO feeDetails (fees, classNo, month, year) "
+        String sql = "INSERT INTO feedetails (fees, classNo, month, year) "
                 + "VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE fees=VALUES(fees)";
         template.update(sql, feeDetails.getFees(), feeDetails.getClassNo(),
         		feeDetails.getMonth(),feeDetails.getYear());
@@ -44,7 +44,7 @@ public class FeeDetailsDaoImpl implements FeeDetailsDao {
     @Override
     public FeeDetails get(int classNo ,int year, String month) {
     	try {
-    	String sql = "SELECT * FROM FeeDetails WHERE classNo = ? && year = ? && month = ?";
+    	String sql = "SELECT * FROM feedetails WHERE classNo = ? && year = ? && month = ?";
     	FeeDetails feeDetails = (FeeDetails)template.queryForObject(sql, new BeanPropertyRowMapper<>(FeeDetails.class),
     			new Object[] { classNo, year, month });
         return feeDetails;
@@ -55,13 +55,13 @@ public class FeeDetailsDaoImpl implements FeeDetailsDao {
 
     @Override
     public List<FeeDetails> getAll() {
-        String sql = "SELECT * FROM FeeDetails ORDER BY classNo , month";
+        String sql = "SELECT * FROM feedetails ORDER BY classNo , month";
         List<FeeDetails> feeDetails = template.query(sql, new BeanPropertyRowMapper<>(FeeDetails.class));
         return feeDetails;
     }
     
     public List<FeeDetails> getClasswise(int year) {
-        String sql = "SELECT classNo, JSON_OBJECTAGG(month, fees) as month_fees FROM FeeDetails where year = ? GROUP BY classNo ";
+        String sql = "SELECT classNo, JSON_OBJECTAGG(month, fees) as month_fees FROM feedetails where year = ? GROUP BY classNo ";
         List<FeeDetails> feeDetails = template.query(sql,new BeanPropertyRowMapper<>(FeeDetails.class), new Object[] { year });
         System.out.println(feeDetails.size());
         return feeDetails;
@@ -71,7 +71,7 @@ public class FeeDetailsDaoImpl implements FeeDetailsDao {
    
     @Override
     public void delete(int classNo ,int year, String month) {
-        String sql = "DELETE FROM StudentFees WHERE classNo = ? && year = ? && month = ?";
+        String sql = "DELETE FROM studentfees WHERE classNo = ? && year = ? && month = ?";
         template.update(sql,classNo, year, month );
     }
 

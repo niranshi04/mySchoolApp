@@ -58,7 +58,7 @@ public class StudentFeesDaoImpl implements StudentFeesDao {
     		sqlScholarshipExpiry = new GregorianCalendar(year1,month1, day1).getTime();
     		
     	}
-        String sql = "INSERT INTO StudentFees (registrationNo, lastDate, scholarshipPercent, scholarshipExpiry) "
+        String sql = "INSERT INTO studentfees (registrationNo, lastDate, scholarshipPercent, scholarshipExpiry) "
                 + "VALUES (?, ?, ?, ?)";
         template.update(sql, studentFees.getRegistrationNo(), sqlLastDate, studentFees.getScholarshipPercent(),
         		sqlScholarshipExpiry);
@@ -67,7 +67,7 @@ public class StudentFeesDaoImpl implements StudentFeesDao {
     @Override
     public StudentFees get(int registrationNo) {
     	try {
-    	String sql = "SELECT * FROM StudentFees WHERE registrationNo = ?";
+    	String sql = "SELECT * FROM studentfees WHERE registrationNo = ?";
     	StudentFees studentFees = (StudentFees)template.queryForObject(sql, new BeanPropertyRowMapper<>(StudentFees.class), new Object[] { registrationNo });
         return studentFees;
     } catch (EmptyResultDataAccessException e) {
@@ -77,7 +77,7 @@ public class StudentFeesDaoImpl implements StudentFeesDao {
 
     @Override
     public List<StudentFees> getAll() {
-        String sql = "SELECT * FROM StudentFees";
+        String sql = "SELECT * FROM studentfees";
         List<StudentFees> studentsFees = template.query(sql, new BeanPropertyRowMapper<>(StudentFees.class));
         return studentsFees;
     }
@@ -113,15 +113,15 @@ public class StudentFeesDaoImpl implements StudentFeesDao {
     		sqlScholarshipExpiry = new GregorianCalendar(year1,month1, day1).getTime();
     		
     	}
-        String sql = "UPDATE StudentFees SET lastDate = ?, scholarshipPercent = ?, scholarshipExpiry = ?"
-                + "WHERE registrationNo = ?";
+        String sql = "UPDATE studentfees SET lastDate = ?, scholarshipPercent = ?, scholarshipExpiry = ?"
+                + " WHERE registrationNo = ?";
         template.update(sql, sqlLastDate, studentFees.getScholarshipPercent(),sqlScholarshipExpiry, 
         		studentFees.getRegistrationNo());
     }
 
     @Override
     public void delete(int registrationNo) {
-        String sql = "DELETE FROM StudentFees WHERE registrationNo = ?";
+        String sql = "DELETE FROM studentfees WHERE registrationNo = ?";
         template.update(sql, registrationNo);
     }
 

@@ -44,7 +44,7 @@ public class GradesDaoImpl implements GradesDao {
     private ClassDetailsDao classDetailsDao;
     @Override
     public void save(TeacherClassSubject teacherClassSubject) {
-        String sql = "INSERT INTO TeacherClassSubject (teacherId, classId, year, subjectId) "
+        String sql = "INSERT INTO teacherclasssubject (teacherId, classId, year, subjectId) "
                 + "VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE teacherId=VALUES(teacherId) ";
         template.update(sql, teacherClassSubject.getTeacher().getTeacherId(), teacherClassSubject.getClassDetails().getClassId(),
         		teacherClassSubject.getYear(),teacherClassSubject.getSubject().getSubjectId());
@@ -55,7 +55,7 @@ public class GradesDaoImpl implements GradesDao {
     public List<ClassStudent> getAllPresentInClass(ClassDetails classDetails){
     	try {
     		int year = YearMonth.now().getYear();
-        	String sql = "SELECT * FROM ClassStudent WHERE classId = ? && (startYear = ?) ||"
+        	String sql = "SELECT * FROM classstudent WHERE classId = ? && (startYear = ?) ||"
         			+ "(startYear = ?) ";
         	List<ClassStudent> classStudents = (List<ClassStudent>)template.query(sql, new ClassStudentRowMapper(),
         			new Object[] { classDetails.getClassId(),year, year-1});
@@ -67,7 +67,7 @@ public class GradesDaoImpl implements GradesDao {
     @Override
     public List<TeacherClassSubject> getAllInClass(ClassDetails classDetails, int year ){
     	try {
-        	String sql = "SELECT * FROM TeacherClassSubject NATURAL JOIN Teacher NATURAL JOIN Subject WHERE classId = ? && (year = ? )||"
+        	String sql = "SELECT * FROM teacherclasssubject NATURAL JOIN teacher NATURAL JOIN subject WHERE classId = ? && (year = ? )||"
         			+ "(year = ?) ";
         	List<TeacherClassSubject> teacherClassSubjects = template.query(sql, new TeacherClassSubjectRowMapper(),
         			new Object[] { classDetails.getClassId(),year, year-1 });
@@ -80,7 +80,7 @@ public class GradesDaoImpl implements GradesDao {
     
     public List<ClassStudent> getAll(int year ){
     	try {
-        	String sql = "SELECT * FROM ClassStudent WHERE startYear = ? ORDERBY classId ";
+        	String sql = "SELECT * FROM classstudent WHERE startYear = ? ORDERBY classId ";
         	List<ClassStudent> classStudents = (List<ClassStudent>)template.query(sql, new ClassStudentRowMapper(),
         			new Object[] {year});
             return classStudents;
@@ -92,7 +92,7 @@ public class GradesDaoImpl implements GradesDao {
     public ClassStudent getPresentClassOfStudent(int registrationNo) {
     	try {
     		int year = YearMonth.now().getYear();
-        	String sql = "SELECT  ClassDetails.classNo, ClassDetails.section FROM ClassStudent NATURAL JOIN ClassDetails "
+        	String sql = "SELECT  classdetails.classNo, classdetails.section FROM classstudent NATURAL JOIN classdetails "
         			+ "WHERE registrationNo = ? && (startYear = ?) ||"
         			+ "(startYear = ? )";
         	ClassStudent classStudent= (ClassStudent)template.query(sql, new ClassStudentRowMapper(),
@@ -105,7 +105,7 @@ public class GradesDaoImpl implements GradesDao {
     
     public ClassStudent getClassOfStudent(int registrationNo, int year) {
     	try {
-        	String sql = "SELECT  ClassDetails.classNo, ClassDetails.section FROM ClassStudent NATURAL JOIN ClassDetails "
+        	String sql = "SELECT  classdetails.classNo, classdetails.section FROM classstudent NATURAL JOIN classdetails "
         			+ "WHERE registrationNo = ? && startYear=?";
         	ClassStudent classStudent= (ClassStudent)template.queryForObject(sql, new ClassStudentRowMapper(),
         			new Object[] {registrationNo, year});
@@ -116,7 +116,7 @@ public class GradesDaoImpl implements GradesDao {
     } 
     public void deletePresent(int classId, int registrationNo) {
     	int year = YearMonth.now().getYear();
-    	 String sql = "DELETE FROM ClassStudent WHERE classId = ? && registrationNo = ? &&"
+    	 String sql = "DELETE FROM classstudent WHERE classId = ? && registrationNo = ? &&"
     	 		+ "(startYear = ? )|| "
     	 		+ "(startYear = ? )";
          template.update(sql,classId, registrationNo, year, year-1 );
@@ -124,26 +124,26 @@ public class GradesDaoImpl implements GradesDao {
     
     public void updatePresent(ClassStudent classStudent, int registrationNo) {
     	int year = YearMonth.now().getYear();
-   	 String sql ="UPDATE ClassStudent set classId = ? startYear= ?  WHERE registrationNo = ? &&"
+   	 String sql ="UPDATE classstudent set classId = ? startYear= ?  WHERE registrationNo = ? &&"
    	 		+ "(startYear = ? )|| "
    	 		+ "(startYear = ?)";
         template.update(sql,classStudent.getClassDetails().getClassId(),classStudent.getStartYear(), 
         		registrationNo, year, year-1);
     }
     public void delete(TeacherClassSubject teacherClassSubject) {
-    	String sql = "DELETE FROM TeacherClassSubject WHERE classId = ? && subjectId = ?  && year = ?";
+    	String sql = "DELETE FROM teacherclasssubject WHERE classId = ? && subjectId = ?  && year = ?";
     	template.update(sql,teacherClassSubject.getClassDetails().getClassId(),
     			teacherClassSubject.getSubject().getSubjectId()
     			,teacherClassSubject.getYear() );
     }
     public List<Grades> get(ClassStudent classStudent, int subjectId) {
     	try {
-        	String sql = "SELECT  * FROM (Grades JOIN ClassStudent ON Grades.classId=ClassStudent.classId && Grades.registrationNo=ClassStudent.registrationNo && Grades.year=ClassStudent.startYear)" 
-        			+" JOIN student ON student.registrationNo = classStudent.registrationNo"
+        	String sql = "SELECT  * FROM (grades JOIN classstudent ON grades.classId=classstudent.classId && grades.registrationNo=classstudent.registrationNo && grades.year=classstudent.startYear)" 
+        			+" JOIN student ON student.registrationNo = classstudent.registrationNo"
 						+" JOIN teacher ON grades.teacherId = teacher.teacherId "+
                         " JOIN subject ON subject.subjectId = grades.subjectId"+
                         " JOIN exam ON exam.examId= grades.examId"+
-                     " WHERE ClassStudent.registrationNo = ? && ClassStudent.startYear=? && subject.subjectId = ? && ClassStudent.classId =?";
+                     " WHERE classstudent.registrationNo = ? && classstudent.startYear=? && subject.subjectId = ? && classstudent.classId =?";
         	List<Grades> grades = (List<Grades>)template.query(sql, new GradesRowMapper(),
         			new Object[] {classStudent.getStudent().getRegistrationNo(),classStudent.getStartYear(),
         					subjectId,classStudent.getClassDetails().getClassId()});
@@ -155,7 +155,7 @@ public class GradesDaoImpl implements GradesDao {
         }
     } 
     public void save(Grades grades) {
-        String sql = "INSERT INTO Grades (registrationNo, classId, year, subjectId, teacherId, examId, grades) "
+        String sql = "INSERT INTO grades (registrationNo, classId, year, subjectId, teacherId, examId, grades) "
                 + "VALUES (?, ?, ?, ?,?,?,?) ON DUPLICATE KEY UPDATE teacherId=VALUES(teacherId), grades=VALUES(grades) ";
         template.update(sql, grades.getClassStudent().getStudent().getRegistrationNo(), grades.getClassStudent().getClassDetails().getClassId(),
         		grades.getClassStudent().getStartYear(),grades.getSubject().getSubjectId(),

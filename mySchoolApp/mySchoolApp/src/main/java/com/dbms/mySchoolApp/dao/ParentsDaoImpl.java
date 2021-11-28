@@ -19,7 +19,7 @@ public class ParentsDaoImpl implements ParentsDao {
     @Override
     public Parents get(int registrationNo) {
     	try {
-            String sql = "SELECT * FROM Parents WHERE registrationNo = ?";
+            String sql = "SELECT * FROM parents WHERE registrationNo = ?";
             Parents parents = (Parents)template.queryForObject(sql, new BeanPropertyRowMapper<>(Parents.class), new Object[] { registrationNo });
             return parents;
         } catch (EmptyResultDataAccessException e) {
@@ -28,7 +28,7 @@ public class ParentsDaoImpl implements ParentsDao {
     }
     @Override
     public void save(Parents parents) {
-        String sql = "INSERT INTO Parents (registrationNo, motherName, motherJob, fatherName, fatherJob) "
+        String sql = "INSERT INTO parents (registrationNo, motherName, motherJob, fatherName, fatherJob) "
                 + "VALUES (?, ?, ?, ?, ?)";
         template.update(sql, parents.getRegistrationNo(), parents.getMotherName(), parents.getMotherJob(),
         		parents.getFatherName(), parents.getFatherJob());
@@ -37,7 +37,7 @@ public class ParentsDaoImpl implements ParentsDao {
     @Override
     public String getMotherName(int registrationNo) {
         try {
-            String sql = "SELECT motherName FROM Parents WHERE registrationNo = ?";
+            String sql = "SELECT motherName FROM parents WHERE registrationNo = ?";
             String motherName = template.queryForObject(sql,  String.class, new Object[] { registrationNo });
             return motherName;
         } catch (EmptyResultDataAccessException e) {
@@ -48,7 +48,7 @@ public class ParentsDaoImpl implements ParentsDao {
     @Override
     public String getFatherName(int registrationNo) {
         try {
-            String sql = "SELECT fatherName FROM Parents WHERE registrationNo = ?";
+            String sql = "SELECT fatherName FROM parents WHERE registrationNo = ?";
             String fatherName = template.queryForObject(sql,  String.class, new Object[] { registrationNo });
             return fatherName;
         } catch (EmptyResultDataAccessException e) {
@@ -61,7 +61,7 @@ public class ParentsDaoImpl implements ParentsDao {
      */
     @Override
     public void update(Parents parents) {
-        String sql = "UPDATE Parents SET motherName = ?, motherJob = ?, fatherName = ?, fatherJob = ? WHERE registrationNo = ?";
+        String sql = "UPDATE parents SET motherName = ?, motherJob = ?, fatherName = ?, fatherJob = ? WHERE registrationNo = ?";
         template.update(sql, parents.getMotherName(), parents.getMotherJob(), parents.getFatherName(),
         		parents.getFatherJob(), parents.getRegistrationNo());
     }

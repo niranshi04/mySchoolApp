@@ -49,7 +49,7 @@ public class TeacherSalaryDaoImpl implements TeacherSalaryDao {
     		int day = 30;
     	    sqlLastDate = new GregorianCalendar(year,month, day).getTime();
     	}
-        String sql = "INSERT INTO teacherSalary (teacherId, lastDate, salary) "
+        String sql = "INSERT INTO teachersalary (teacherId, lastDate, salary) "
                 + "VALUES (?, ?, ?)";
         template.update(sql, teacherSalary.getTeacherId(), sqlLastDate, teacherSalary.getSalary());
     }
@@ -57,7 +57,7 @@ public class TeacherSalaryDaoImpl implements TeacherSalaryDao {
     @Override
     public TeacherSalary get(int teacherId) {
     	try {
-    	String sql = "SELECT * FROM teacherSalary WHERE teacherId = ?";
+    	String sql = "SELECT * FROM teachersalary WHERE teacherId = ?";
     	TeacherSalary teacherSalary = (TeacherSalary)template.queryForObject(sql, new BeanPropertyRowMapper<>(TeacherSalary.class), new Object[] { teacherId });
         return teacherSalary;
     } catch (EmptyResultDataAccessException e) {
@@ -81,14 +81,14 @@ public class TeacherSalaryDaoImpl implements TeacherSalaryDao {
     		int day = 30;
     	    sqlLastDate = new GregorianCalendar(year,month, day).getTime();
     	}
-        String sql = "UPDATE teacherSalary SET lastDate = ?, salary = ? WHERE teacherId = ?";
+        String sql = "UPDATE teachersalary SET lastDate = ?, salary = ? WHERE teacherId = ?";
         template.update(sql, sqlLastDate, teacherSalary.getSalary(), 
         		teacherSalary.getTeacherId());
     }
 
     @Override
     public void delete(int teacherId) {
-        String sql = "DELETE FROM teacherSalary WHERE teacherId = ?";
+        String sql = "DELETE FROM teachersalary WHERE teacherId = ?";
         template.update(sql, teacherId);
     }
 

@@ -41,7 +41,7 @@ public class TeacherClassSubjectDaoImpl implements TeacherClassSubjectDao {
 
     @Override
     public void save(TeacherClassSubject teacherClassSubject) {
-        String sql = "INSERT INTO TeacherClassSubject (teacherId, classId, year, subjectId) "
+        String sql = "INSERT INTO teacherclasssubject (teacherId, classId, year, subjectId) "
                 + "VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE teacherId=VALUES(teacherId) ";
         template.update(sql, teacherClassSubject.getTeacher().getTeacherId(), teacherClassSubject.getClassDetails().getClassId(),
         		teacherClassSubject.getYear(),teacherClassSubject.getSubject().getSubjectId());
@@ -52,7 +52,7 @@ public class TeacherClassSubjectDaoImpl implements TeacherClassSubjectDao {
     public List<ClassStudent> getAllPresentInClass(ClassDetails classDetails){
     	try {
     		int year = YearMonth.now().getYear();
-        	String sql = "SELECT * FROM ClassStudent WHERE classId = ? && (startYear = ?) ||"
+        	String sql = "SELECT * FROM classstudent WHERE classId = ? && (startYear = ?) ||"
         			+ "(startYear = ?) ";
         	List<ClassStudent> classStudents = (List<ClassStudent>)template.query(sql, new ClassStudentRowMapper(),
         			new Object[] { classDetails.getClassId(),year, year-1});
@@ -64,7 +64,7 @@ public class TeacherClassSubjectDaoImpl implements TeacherClassSubjectDao {
     @Override
     public List<TeacherClassSubject> getAllInClass(ClassDetails classDetails, int year ){
     	try {
-        	String sql = "SELECT * FROM TeacherClassSubject NATURAL JOIN Teacher NATURAL JOIN Subject WHERE classId = ? && (year = ? )||"
+        	String sql = "SELECT * FROM teacherclasssubject NATURAL JOIN teacher NATURAL JOIN subject WHERE classId = ? && (year = ? )||"
         			+ "(year = ?) ";
         	List<TeacherClassSubject> teacherClassSubjects = template.query(sql, new TeacherClassSubjectRowMapper(),
         			new Object[] { classDetails.getClassId(),year, year-1 });
@@ -77,7 +77,7 @@ public class TeacherClassSubjectDaoImpl implements TeacherClassSubjectDao {
     
     public List<ClassStudent> getAll(int year ){
     	try {
-        	String sql = "SELECT * FROM ClassStudent WHERE startYear = ? ORDERBY classId ";
+        	String sql = "SELECT * FROM classstudent WHERE startYear = ? ORDERBY classId ";
         	List<ClassStudent> classStudents = (List<ClassStudent>)template.query(sql, new ClassStudentRowMapper(),
         			new Object[] {year});
             return classStudents;
@@ -89,7 +89,7 @@ public class TeacherClassSubjectDaoImpl implements TeacherClassSubjectDao {
     public ClassStudent getPresentClassOfStudent(int registrationNo) {
     	try {
     		int year = YearMonth.now().getYear();
-        	String sql = "SELECT  ClassDetails.classNo, ClassDetails.section FROM ClassStudent NATURAL JOIN ClassDetails "
+        	String sql = "SELECT  classdetails.classNo, classdetails.section FROM classstudent NATURAL JOIN classdetails "
         			+ "WHERE registrationNo = ? && (startYear = ?) ||"
         			+ "(startYear = ? )";
         	ClassStudent classStudent= (ClassStudent)template.query(sql, new ClassStudentRowMapper(),
@@ -102,7 +102,7 @@ public class TeacherClassSubjectDaoImpl implements TeacherClassSubjectDao {
     
     public ClassStudent getClassOfStudent(int registrationNo, int year) {
     	try {
-        	String sql = "SELECT  ClassDetails.classNo, ClassDetails.section FROM ClassStudent NATURAL JOIN ClassDetails "
+        	String sql = "SELECT  classdetails.classNo, classdetails.section FROM classstudent NATURAL JOIN classdetails "
         			+ "WHERE registrationNo = ? && startYear=?";
         	ClassStudent classStudent= (ClassStudent)template.queryForObject(sql, new ClassStudentRowMapper(),
         			new Object[] {registrationNo, year});
@@ -113,7 +113,7 @@ public class TeacherClassSubjectDaoImpl implements TeacherClassSubjectDao {
     } 
     public void deletePresent(int classId, int registrationNo) {
     	int year = YearMonth.now().getYear();
-    	 String sql = "DELETE FROM ClassStudent WHERE classId = ? && registrationNo = ? &&"
+    	 String sql = "DELETE FROM classstudent WHERE classId = ? && registrationNo = ? &&"
     	 		+ "(startYear = ? )|| "
     	 		+ "(startYear = ? )";
          template.update(sql,classId, registrationNo, year, year-1 );
@@ -121,7 +121,7 @@ public class TeacherClassSubjectDaoImpl implements TeacherClassSubjectDao {
     
     public void updatePresent(ClassStudent classStudent, int registrationNo) {
     	int year = YearMonth.now().getYear();
-   	 String sql ="UPDATE ClassStudent set classId = ? startYear= ?  WHERE registrationNo = ? &&"
+   	 String sql ="UPDATE classstudent set classId = ? startYear= ?  WHERE registrationNo = ? &&"
    	 		+ "(startYear = ? )|| "
    	 		+ "(startYear = ?)";
         template.update(sql,classStudent.getClassDetails().getClassId(),classStudent.getStartYear(), 
@@ -129,7 +129,7 @@ public class TeacherClassSubjectDaoImpl implements TeacherClassSubjectDao {
     }
     
     public void delete(TeacherClassSubject teacherClassSubject) {
-    	String sql = "DELETE FROM TeacherClassSubject WHERE classId = ? && subjectId = ?  && year = ?";
+    	String sql = "DELETE FROM teacherclasssubject WHERE classId = ? && subjectId = ?  && year = ?";
     	template.update(sql,teacherClassSubject.getClassDetails().getClassId(),
     			teacherClassSubject.getSubject().getSubjectId()
     			,teacherClassSubject.getYear() );

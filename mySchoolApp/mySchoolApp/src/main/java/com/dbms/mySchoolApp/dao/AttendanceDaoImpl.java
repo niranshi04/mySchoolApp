@@ -62,7 +62,7 @@ public class AttendanceDaoImpl implements AttendanceDao {
     public List<Attendance> get(Attendance attendance) {
     	try {
     		String sql = 
-    			"SELECT * FROM Attendance JOIN Student ON Attendance.registrationNo = Student.registrationNo WHERE classId = 3 && MONTH(date)=11 && YEAR(date)=2021";
+    			"SELECT * FROM attendance JOIN student ON attendance.registrationNo = student.registrationNo WHERE classId = 3 && MONTH(date)=11 && YEAR(date)=2021";
 	    	List<Attendance> attendanceList = template.query(sql, new AttendanceRowMapper());
 	        return attendanceList;
 	    } catch (EmptyResultDataAccessException e) {
@@ -81,7 +81,7 @@ public class AttendanceDaoImpl implements AttendanceDao {
     		String date1 = simpleDateFormat.format(date);
     		int year = calendar.get(Calendar.YEAR);
     		String sql = 
-        			"SELECT * FROM Attendance NATURAL JOIN Student WHERE classId = ? && date = ? ";
+        			"SELECT * FROM attendance NATURAL JOIN student WHERE classId = ? && date = ? ";
     		  List<Attendance> att = template.query(sql, new AttendanceRowMapper(), new Object[] {classId , date1});
     		  HashMap<Integer, Integer>mp = new HashMap<Integer, Integer> ();
     		  for(int i=0;i<att.size();i++) {

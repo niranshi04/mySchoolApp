@@ -1,32 +1,37 @@
 package com.dbms.mySchoolApp.controllers;
 import com.dbms.mySchoolApp.services.SecurityService;
+import java.util.HashMap;
 import com.dbms.mySchoolApp.validators.UserValidator;
 import com.dbms.mySchoolApp.services.UserService;
 import com.dbms.mySchoolApp.validators.StudentValidator;
 import com.dbms.mySchoolApp.validators.NumberValidator;
 import com.dbms.mySchoolApp.validators.ClassValidator;
+import com.dbms.mySchoolApp.validators.AttendanceValidator;
+import com.dbms.mySchoolApp.validators.GradesValidator;
 import com.dbms.mySchoolApp.validators.ClassStudentValidator;
-import com.dbms.mySchoolApp.validators.TeacherValidator;
+import com.dbms.mySchoolApp.validators.TeacherClassSubjectValidator;
 import javax.servlet.ServletException;
+import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
+import java.util.Date;
+import java.util.Calendar;
 import javax.validation.Valid;
 import com.dbms.mySchoolApp.dao.UserDao;
-import com.dbms.mySchoolApp.dao.TeacherDao;
-import com.dbms.mySchoolApp.dao.TeacherSalaryDao;
+import com.dbms.mySchoolApp.dao.GradesDao;
 import com.dbms.mySchoolApp.dao.StudentDao;
 import com.dbms.mySchoolApp.dao.ParentsDao;
 import com.dbms.mySchoolApp.dao.StudentFeesDao;
 import com.dbms.mySchoolApp.dao.FeeDetailsDao;
 import com.dbms.mySchoolApp.dao.ClassDetailsDao;
 import com.dbms.mySchoolApp.dao.ClassStudentDao;
+import com.dbms.mySchoolApp.dao.AttendanceDao;
+import com.dbms.mySchoolApp.dao.TeacherClassSubjectDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,18 +42,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import com.dbms.mySchoolApp.models.User;
+import com.dbms.mySchoolApp.models.Attendance;
+import com.dbms.mySchoolApp.models.AttendanceList;
 import com.dbms.mySchoolApp.models.Parents;
 import com.dbms.mySchoolApp.models.Student;
 import com.dbms.mySchoolApp.models.StudentFees;
+import com.dbms.mySchoolApp.models.Teacher;
+import com.dbms.mySchoolApp.models.TeacherSalary;
+import com.dbms.mySchoolApp.models.TeacherClassSubject;
 import com.dbms.mySchoolApp.models.FeeDetails;
 import com.dbms.mySchoolApp.models.Grades;
 import com.dbms.mySchoolApp.models.Attendance;
-import com.dbms.mySchoolApp.models.AttendanceList;
 import com.dbms.mySchoolApp.models.ClassDetails;
 import com.dbms.mySchoolApp.models.ClassStudent;
-import com.dbms.mySchoolApp.models.Teacher;
-import com.dbms.mySchoolApp.models.TeacherClassSubject;
-import com.dbms.mySchoolApp.models.TeacherSalary;
+import com.dbms.mySchoolApp.models.Grades;
+
 @Transactional
 @Controller
 public class TeacherController {
@@ -58,13 +66,14 @@ public class TeacherController {
 	
 	@Autowired
     private StudentDao studentDao;
-	@Autowired
-    private TeacherDao teacherDao;
-	@Autowired
-    private TeacherSalaryDao teacherSalaryDao;
 	
 	@Autowired
     private ParentsDao parentsDao;
+	
+	@Autowired
+    private GradesDao gradesDao;
+	@Autowired
+    private AttendanceDao attendanceDao;
 	
 	@Autowired
     private FeeDetailsDao feeDetailsDao;
@@ -75,20 +84,26 @@ public class TeacherController {
     private ClassDetailsDao classDetailsDao;
 	@Autowired
     private ClassStudentDao classStudentDao;
+	@Autowired
+    private TeacherClassSubjectDao teacherClassSubjectDao;
     
     @Autowired
     private UserValidator userValidator;
     @Autowired
-    private TeacherValidator teacherValidator;
+    private AttendanceValidator attendanceValidator;
 
     @Autowired
     private StudentValidator studentValidator;
+    @Autowired
+    private GradesValidator gradesValidator;
     @Autowired
     private ClassStudentValidator classStudentValidator;
     @Autowired
     private NumberValidator numberValidator;
     @Autowired
     private ClassValidator classValidator;
+    @Autowired
+    private TeacherClassSubjectValidator teacherClassSubjectValidator;
     
     @Autowired
     private SecurityService securityService;

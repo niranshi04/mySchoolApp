@@ -16,14 +16,14 @@ public class UserTokenDaoImpl implements UserTokenDao {
 
     @Override
     public void save(UserToken userToken) {
-        String sql = "INSERT INTO UserToken (token, emailAddress) VALUES (?, ?)";
+        String sql = "INSERT INTO usertoken (token, emailAddress) VALUES (?, ?)";
         template.update(sql, userToken.getToken(), userToken.getEmailAddress());
     }
 
     @Override
     public String getEmailAddressByToken(String token) {
         try {
-            String sql = "SELECT emailAddress FROM UserToken WHERE token = ?";
+            String sql = "SELECT emailAddress FROM usertoken WHERE token = ?";
             String emailAddress = template.queryForObject(sql,String.class, new Object[] { token });
             return emailAddress;
         } catch (EmptyResultDataAccessException e) {
@@ -34,7 +34,7 @@ public class UserTokenDaoImpl implements UserTokenDao {
     @Override
     public String getTokenByUserId(String emailAddress) {
         try {
-            String sql = "SELECT token FROM UserToken WHERE emailAddress = ?";
+            String sql = "SELECT token FROM usertoken WHERE emailAddress = ?";
             String token = template.queryForObject(sql,String.class, new Object[] { emailAddress });
             return token;
         } catch (EmptyResultDataAccessException e) {
@@ -44,13 +44,13 @@ public class UserTokenDaoImpl implements UserTokenDao {
 
     @Override
     public void update(UserToken userToken) {
-        String sql = "UPDATE UserToken SET token = ? WHERE emailAddress = ?";
+        String sql = "UPDATE usertoken SET token = ? WHERE emailAddress = ?";
         template.update(sql, userToken.getToken(), userToken.getEmailAddress());
     }
 
     @Override
     public void delete(String token) {
-        String sql = "DELETE FROM UserToken WHERE token = ?";
+        String sql = "DELETE FROM usertoken WHERE token = ?";
         template.update(sql, token);
     }
 

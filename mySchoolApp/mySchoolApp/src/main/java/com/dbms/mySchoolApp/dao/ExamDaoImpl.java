@@ -37,7 +37,7 @@ public class ExamDaoImpl implements ExamDao {
 
     @Override
     public void save(Subject subject) {
-        String sql = "INSERT INTO Subject (subjectName, description) "
+        String sql = "INSERT INTO subject (subjectName, description) "
                 + "VALUES (?, ?) ";
         template.update(sql, subject.getSubjectName(), subject.getDescription());
     }
@@ -61,8 +61,6 @@ public class ExamDaoImpl implements ExamDao {
         return subject;
     }
     
-    
-   
     @Override
     public void delete(int subjectId) {
         String sql = "DELETE FROM subject WHERE subjectId = ?";
