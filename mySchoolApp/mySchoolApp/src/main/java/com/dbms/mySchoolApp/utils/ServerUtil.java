@@ -7,7 +7,7 @@ public class ServerUtil {
     public String getHostAddressAndPort() {
         String hostname = System.getenv("SERVER_HOSTNAME");
         if (hostname == null) {
-            return "http://127.0.0.1:8080";
+            return "https://my-school-application.herokuapp.com";
         } else {
             return hostname;
         }
